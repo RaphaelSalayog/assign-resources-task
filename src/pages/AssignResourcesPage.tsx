@@ -1,10 +1,10 @@
-import { useState } from "react";
-import dayjs, { type Dayjs } from "dayjs";
-import { App, Breadcrumb, Typography } from "antd";
 import CheckCircleFilled from "@ant-design/icons/CheckCircleFilled";
 import ClockCircleOutlined from "@ant-design/icons/ClockCircleOutlined";
 import ThunderboltOutlined from "@ant-design/icons/ThunderboltOutlined";
 import TruckOutlined from "@ant-design/icons/TruckOutlined";
+import { App, Breadcrumb, Typography } from "antd";
+import dayjs, { type Dayjs } from "dayjs";
+import { useState } from "react";
 import { AssignmentPanel } from "../components/assignment-panel/AssignmentPanel";
 import { TripQueue } from "../components/trip-queue/TripQueue";
 import { mockDrivers } from "../data/mockDrivers";
@@ -13,7 +13,8 @@ import type { AssignmentFlowStatus, Trip } from "../types";
 
 const { Text, Title } = Typography;
 
-const delay = (milliseconds: number) => new Promise((resolve) => window.setTimeout(resolve, milliseconds));
+const delay = (milliseconds: number) =>
+    new Promise((resolve) => window.setTimeout(resolve, milliseconds));
 
 interface AssignResourcesPageProps {
     trips: Trip[];
@@ -25,7 +26,9 @@ export function AssignResourcesPage({ trips, onTripUpdate }: AssignResourcesPage
     const [selectedTripId, setSelectedTripId] = useState<string>("trip-001");
     const [vehicleId, setVehicleId] = useState<string>();
     const [driverId, setDriverId] = useState<string>();
-    const [dispatchTime, setDispatchTime] = useState<Dayjs | null>(() => dayjs().add(30, "minute").startOf("minute"));
+    const [dispatchTime, setDispatchTime] = useState<Dayjs | null>(() =>
+        dayjs().add(30, "minute").startOf("minute")
+    );
     const [flowStatus, setFlowStatus] = useState<AssignmentFlowStatus>("idle");
 
     const selectedTrip = trips.find((trip) => trip.id === selectedTripId);
@@ -38,8 +41,16 @@ export function AssignResourcesPage({ trips, onTripUpdate }: AssignResourcesPage
         setSelectedTripId(id);
         setVehicleId(trip?.assignedVehicleId);
         setDriverId(trip?.assignedDriverId);
-        setDispatchTime(trip?.dispatchTime ? dayjs(trip.dispatchTime) : dayjs().add(30, "minute").startOf("minute"));
-        setFlowStatus(trip?.status === "RESOURCES_ASSIGNED" || trip?.status === "DRIVER_CONFIRMED" ? "assigned" : "idle");
+        setDispatchTime(
+            trip?.dispatchTime
+                ? dayjs(trip.dispatchTime)
+                : dayjs().add(30, "minute").startOf("minute")
+        );
+        setFlowStatus(
+            trip?.status === "RESOURCES_ASSIGNED" || trip?.status === "DRIVER_CONFIRMED"
+                ? "assigned"
+                : "idle"
+        );
     };
 
     const handleVehicleChange = (value?: string) => {
@@ -66,7 +77,8 @@ export function AssignResourcesPage({ trips, onTripUpdate }: AssignResourcesPage
                 key: "driver-schedule-conflict",
                 message: "Driver schedule conflict detected",
                 description: `${driver.name} has an overlapping assignment on ${driver.conflictTripRef}. Select another available driver to continue.`,
-                duration: 0,
+                showProgress: true,
+                duration: 10,
             });
             return;
         }
@@ -85,31 +97,45 @@ export function AssignResourcesPage({ trips, onTripUpdate }: AssignResourcesPage
 
     return (
         <div className="assign-resources-page">
-            <Breadcrumb
-                items={[
-                    { title: "Dispatch Console" },
-                    { title: "Assign Resources" },
-                ]}
-            />
+            <Breadcrumb items={[{ title: "Dispatch Console" }, { title: "Assign Resources" }]} />
 
             <div className="page-title-row">
                 <div>
-                    <div className="page-kicker"><ThunderboltOutlined /> Order-to-delivery · Step 3</div>
+                    <div className="page-kicker">
+                        <ThunderboltOutlined /> Order-to-delivery · Step 3
+                    </div>
                     <Title>Assign resources</Title>
-                    <Text type="secondary">Match every planned trip with an available vehicle and qualified driver.</Text>
+                    <Text type="secondary">
+                        Match every planned trip with an available vehicle and qualified driver.
+                    </Text>
                 </div>
                 <div className="operations-summary" aria-label="Dispatch queue summary">
                     <div>
-                        <span className="metric-icon metric-icon-warning"><ClockCircleOutlined /></span>
-                        <span><Text strong>{plannedCount}</Text><Text type="secondary">To assign</Text></span>
+                        <span className="metric-icon metric-icon-warning">
+                            <ClockCircleOutlined />
+                        </span>
+                        <span>
+                            <Text strong>{plannedCount}</Text>
+                            <Text type="secondary">To assign</Text>
+                        </span>
                     </div>
                     <div>
-                        <span className="metric-icon metric-icon-primary"><TruckOutlined /></span>
-                        <span><Text strong>{assignedCount}</Text><Text type="secondary">Assigned</Text></span>
+                        <span className="metric-icon metric-icon-primary">
+                            <TruckOutlined />
+                        </span>
+                        <span>
+                            <Text strong>{assignedCount}</Text>
+                            <Text type="secondary">Assigned</Text>
+                        </span>
                     </div>
                     <div>
-                        <span className="metric-icon metric-icon-success"><CheckCircleFilled /></span>
-                        <span><Text strong>{confirmedCount}</Text><Text type="secondary">Confirmed</Text></span>
+                        <span className="metric-icon metric-icon-success">
+                            <CheckCircleFilled />
+                        </span>
+                        <span>
+                            <Text strong>{confirmedCount}</Text>
+                            <Text type="secondary">Confirmed</Text>
+                        </span>
                     </div>
                 </div>
             </div>

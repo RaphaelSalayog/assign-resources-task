@@ -624,9 +624,13 @@ input {
     width: 100%;
 }
 
-.resource-select .ant-select-selector,
+.resource-select.ant-select,
 .dispatch-time-picker.ant-picker {
-    min-height: 42px;
+    height: 42px;
+}
+
+.resource-select .ant-select-selector {
+    height: 100%;
 }
 
 .resource-option {

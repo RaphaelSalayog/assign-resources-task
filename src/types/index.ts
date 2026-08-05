@@ -1,0 +1,40 @@
+export type TripStatus =
+    | "AWAITING_PLANNING"
+    | "TRIP_PLANNED"
+    | "RESOURCES_ASSIGNED"
+    | "DRIVER_CONFIRMED";
+
+export type AssignmentFlowStatus = "idle" | "ready" | "validating" | "assigned" | "error";
+
+export interface Trip {
+    id: string;
+    orderRef: string;
+    client: string;
+    pickup: string;
+    delivery: string;
+    requestedWindow: string;
+    vehicleRequirement: string;
+    routeConstraints?: string;
+    status: TripStatus;
+    assignedVehicleId?: string;
+    assignedDriverId?: string;
+    dispatchTime?: string;
+}
+
+export interface Vehicle {
+    id: string;
+    plateNumber: string;
+    type: string;
+    capacityKg: number;
+    currentLocation: string;
+    available: boolean;
+}
+
+export interface Driver {
+    id: string;
+    name: string;
+    licenseClass: string;
+    status: "AVAILABLE" | "ON_TRIP" | "OFF_DUTY";
+    currentLocation: string;
+    conflictTripRef?: string;
+}

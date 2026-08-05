@@ -102,7 +102,7 @@ export function AssignResourcesPage({ trips, onTripUpdate }: AssignResourcesPage
             <div className="page-title-row">
                 <div>
                     <div className="page-kicker">
-                        <ThunderboltOutlined /> Order-to-delivery · Step 3
+                        <ThunderboltOutlined /> Order-to-delivery
                     </div>
                     <Title>Assign resources</Title>
                     <Text type="secondary">

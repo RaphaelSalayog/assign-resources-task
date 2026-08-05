@@ -38,3 +38,31 @@ export interface Driver {
     currentLocation: string;
     conflictTripRef?: string;
 }
+
+export type ShipmentMilestoneKey =
+    | "ORDER_SUBMITTED"
+    | "TRIP_PLANNED"
+    | "RESOURCES_ASSIGNED"
+    | "DRIVER_CONFIRMED"
+    | "READY_FOR_PICKUP"
+    | "DELIVERED";
+
+export interface ShipmentMilestone {
+    key: ShipmentMilestoneKey;
+    title: string;
+    description: string;
+    timestamp?: string;
+}
+
+export interface ShipmentVisibility {
+    tripId: string;
+    eta: string;
+    lastUpdated: string;
+    serviceLevel: string;
+    milestones: ShipmentMilestone[];
+}
+
+export interface ShipmentRecord {
+    trip: Trip;
+    visibility: ShipmentVisibility;
+}

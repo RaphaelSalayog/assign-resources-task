@@ -1,25 +1,9 @@
-import type { Dayjs } from "dayjs";
-import {
-    Alert,
-    Button,
-    Card,
-    Empty,
-    Space,
-    Tag,
-    Typography,
-} from "antd";
 import CheckCircleOutlined from "@ant-design/icons/CheckCircleOutlined";
 import ThunderboltOutlined from "@ant-design/icons/ThunderboltOutlined";
-import type {
-    AssignmentFlowStatus,
-    Driver,
-    Trip,
-    TripStatus,
-    Vehicle,
-} from "../../types";
+import { Button, Card, Empty, Space, Tag, Typography } from "antd";
+import type { Dayjs } from "dayjs";
+import type { AssignmentFlowStatus, Driver, Trip, TripStatus, Vehicle } from "../../types";
 import { AssignmentForm } from "./AssignmentForm";
-import { ClientVisibleResultPreview } from "./ClientVisibleResultPreview";
-import { PlatformActivityChecklist } from "./PlatformActivityChecklist";
 import { TripSummary } from "./TripSummary";
 
 const { Text, Title } = Typography;
@@ -39,8 +23,6 @@ interface AssignmentPanelProps {
     driverId?: string;
     dispatchTime: Dayjs | null;
     flowStatus: AssignmentFlowStatus;
-    activityStep: number;
-    errorMessage?: string;
     onVehicleChange: (value?: string) => void;
     onDriverChange: (value?: string) => void;
     onDispatchTimeChange: (value: Dayjs | null) => void;
@@ -55,8 +37,6 @@ export function AssignmentPanel({
     driverId,
     dispatchTime,
     flowStatus,
-    activityStep,
-    errorMessage,
     onVehicleChange,
     onDriverChange,
     onDispatchTimeChange,
@@ -71,13 +51,14 @@ export function AssignmentPanel({
     }
 
     const status = statusLabels[trip.status];
-    const isExistingAssignment = trip.status === "RESOURCES_ASSIGNED" || trip.status === "DRIVER_CONFIRMED";
+    const isExistingAssignment =
+        trip.status === "RESOURCES_ASSIGNED" || trip.status === "DRIVER_CONFIRMED";
     const isAssigned = flowStatus === "assigned" || isExistingAssignment;
     const isValidating = flowStatus === "validating";
-    const canAssign = trip.status === "TRIP_PLANNED" && Boolean(vehicleId && driverId && dispatchTime) && !isValidating;
-    const selectedVehicle = vehicles.find((vehicle) => vehicle.id === vehicleId);
-    const selectedDriver = drivers.find((driver) => driver.id === driverId);
-
+    const canAssign =
+        trip.status === "TRIP_PLANNED" &&
+        Boolean(vehicleId && driverId && dispatchTime) &&
+        !isValidating;
     return (
         <main className="assignment-panel" aria-label="Resource assignment workspace">
             <div className="assignment-header">
@@ -87,7 +68,6 @@ export function AssignmentPanel({
                         <Title level={2}>{trip.orderRef}</Title>
                         <Tag color={status.color}>{status.label}</Tag>
                     </Space>
-                    <Text type="secondary">Assign the right vehicle and driver, then dispatch with confidence.</Text>
                 </div>
                 <div className="header-trip-meta">
                     <Text type="secondary">Trip ID</Text>
@@ -109,34 +89,14 @@ export function AssignmentPanel({
                 onDispatchTimeChange={onDispatchTimeChange}
             />
 
-            {errorMessage ? (
-                <Alert
-                    className="conflict-alert"
-                    type="error"
-                    showIcon
-                    title="Driver schedule conflict detected"
-                    description={errorMessage}
-                    action={<Button size="small" onClick={() => onDriverChange(undefined)}>Choose another driver</Button>}
-                />
-            ) : null}
-
-            <div className="validation-grid">
-                <PlatformActivityChecklist flowStatus={flowStatus} activeStep={activityStep} />
-                <ClientVisibleResultPreview
-                    trip={trip}
-                    vehicle={selectedVehicle}
-                    driver={selectedDriver}
-                    assigned={isAssigned}
-                />
-            </div>
-
             <div className="assignment-action-bar">
-                <div className="action-assurance">
+                <div className="assignment-request-status">
                     <CheckCircleOutlined />
-                    <span>
-                        <Text strong>Safe dispatch controls</Text>
-                        <Text type="secondary">Availability, conflicts and notifications are checked automatically.</Text>
-                    </span>
+                    <Text type="secondary">
+                        {isValidating
+                            ? "Validating assignment request…"
+                            : "Ready to submit assignment"}
+                    </Text>
                 </div>
                 <Button
                     type="primary"
@@ -146,7 +106,11 @@ export function AssignmentPanel({
                     loading={isValidating}
                     onClick={onAssign}
                 >
-                    {isAssigned ? "Resources assigned" : isValidating ? "Running checks" : "Assign resources"}
+                    {isAssigned
+                        ? "Resources assigned"
+                        : isValidating
+                          ? "Running checks"
+                          : "Assign resources"}
                 </Button>
             </div>
         </main>

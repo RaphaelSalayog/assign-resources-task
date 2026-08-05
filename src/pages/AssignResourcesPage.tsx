@@ -8,7 +8,6 @@ import TruckOutlined from "@ant-design/icons/TruckOutlined";
 import { AssignmentPanel } from "../components/assignment-panel/AssignmentPanel";
 import { TripQueue } from "../components/trip-queue/TripQueue";
 import { mockDrivers } from "../data/mockDrivers";
-import { mockTrips } from "../data/mockTrips";
 import { mockVehicles } from "../data/mockVehicles";
 import type { AssignmentFlowStatus, Trip } from "../types";
 
@@ -16,16 +15,18 @@ const { Text, Title } = Typography;
 
 const delay = (milliseconds: number) => new Promise((resolve) => window.setTimeout(resolve, milliseconds));
 
-export function AssignResourcesPage() {
-    const { message } = App.useApp();
-    const [trips, setTrips] = useState<Trip[]>(mockTrips);
+interface AssignResourcesPageProps {
+    trips: Trip[];
+    onTripUpdate: (tripId: string, updates: Partial<Trip>) => void;
+}
+
+export function AssignResourcesPage({ trips, onTripUpdate }: AssignResourcesPageProps) {
+    const { message, notification } = App.useApp();
     const [selectedTripId, setSelectedTripId] = useState<string>("trip-001");
     const [vehicleId, setVehicleId] = useState<string>();
     const [driverId, setDriverId] = useState<string>();
     const [dispatchTime, setDispatchTime] = useState<Dayjs | null>(() => dayjs().add(30, "minute").startOf("minute"));
     const [flowStatus, setFlowStatus] = useState<AssignmentFlowStatus>("idle");
-    const [activityStep, setActivityStep] = useState(-1);
-    const [errorMessage, setErrorMessage] = useState<string>();
 
     const selectedTrip = trips.find((trip) => trip.id === selectedTripId);
     const plannedCount = trips.filter((trip) => trip.status === "TRIP_PLANNED").length;
@@ -39,21 +40,15 @@ export function AssignResourcesPage() {
         setDriverId(trip?.assignedDriverId);
         setDispatchTime(trip?.dispatchTime ? dayjs(trip.dispatchTime) : dayjs().add(30, "minute").startOf("minute"));
         setFlowStatus(trip?.status === "RESOURCES_ASSIGNED" || trip?.status === "DRIVER_CONFIRMED" ? "assigned" : "idle");
-        setActivityStep(trip?.status === "RESOURCES_ASSIGNED" || trip?.status === "DRIVER_CONFIRMED" ? 4 : -1);
-        setErrorMessage(undefined);
     };
 
     const handleVehicleChange = (value?: string) => {
         setVehicleId(value);
-        setErrorMessage(undefined);
-        setActivityStep(-1);
         setFlowStatus(value && driverId ? "ready" : "idle");
     };
 
     const handleDriverChange = (value?: string) => {
         setDriverId(value);
-        setErrorMessage(undefined);
-        setActivityStep(-1);
         setFlowStatus(value && vehicleId ? "ready" : "idle");
     };
 
@@ -61,40 +56,29 @@ export function AssignResourcesPage() {
         if (!selectedTrip || !vehicleId || !driverId || !dispatchTime) return;
 
         const driver = mockDrivers.find((item) => item.id === driverId);
-        setErrorMessage(undefined);
         setFlowStatus("validating");
 
-        setActivityStep(0);
-        await delay(500);
-        setActivityStep(1);
-        await delay(650);
+        await delay(750);
 
         if (driver?.conflictTripRef) {
             setFlowStatus("error");
-            setErrorMessage(
-                `${driver.name} has an overlapping assignment on ${driver.conflictTripRef}. Select another available driver to continue.`,
-            );
-            message.error("Assignment stopped: driver schedule conflict");
+            notification.error({
+                key: "driver-schedule-conflict",
+                message: "Driver schedule conflict detected",
+                description: `${driver.name} has an overlapping assignment on ${driver.conflictTripRef}. Select another available driver to continue.`,
+                duration: 0,
+            });
             return;
         }
 
-        setActivityStep(2);
-        await delay(550);
-        setActivityStep(3);
-        await delay(500);
+        await delay(650);
 
-        setTrips((currentTrips) => currentTrips.map((trip) => (
-            trip.id === selectedTrip.id
-                ? {
-                    ...trip,
-                    status: "RESOURCES_ASSIGNED",
-                    assignedVehicleId: vehicleId,
-                    assignedDriverId: driverId,
-                    dispatchTime: dispatchTime.toISOString(),
-                }
-                : trip
-        )));
-        setActivityStep(4);
+        onTripUpdate(selectedTrip.id, {
+            status: "RESOURCES_ASSIGNED",
+            assignedVehicleId: vehicleId,
+            assignedDriverId: driverId,
+            dispatchTime: dispatchTime.toISOString(),
+        });
         setFlowStatus("assigned");
         message.success(`${selectedTrip.orderRef}: vehicle and driver assigned`);
     };
@@ -144,8 +128,6 @@ export function AssignResourcesPage() {
                     driverId={driverId}
                     dispatchTime={dispatchTime}
                     flowStatus={flowStatus}
-                    activityStep={activityStep}
-                    errorMessage={errorMessage}
                     onVehicleChange={handleVehicleChange}
                     onDriverChange={handleDriverChange}
                     onDispatchTimeChange={setDispatchTime}

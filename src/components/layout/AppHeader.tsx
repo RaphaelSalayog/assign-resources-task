@@ -1,42 +1,67 @@
 import BellOutlined from "@ant-design/icons/BellOutlined";
+import DownOutlined from "@ant-design/icons/DownOutlined";
 import EnvironmentOutlined from "@ant-design/icons/EnvironmentOutlined";
-import TruckOutlined from "@ant-design/icons/TruckOutlined";
-import { Avatar, Badge, Button, Layout, Space, Tooltip, Typography } from "antd";
+import MenuOutlined from "@ant-design/icons/MenuOutlined";
+import {
+    Avatar,
+    Badge,
+    Button,
+    Dropdown,
+    Layout,
+    Space,
+    Tooltip,
+} from "antd";
+import type { MenuProps } from "antd";
 
 const { Header } = Layout;
-const { Text } = Typography;
 
-export function AppHeader() {
+const userMenuItems: MenuProps["items"] = [
+    { key: "profile", label: "Profile" },
+    { key: "logout", label: "Logout" },
+];
+
+const locationItems: MenuProps["items"] = [
+    { key: "singapore", label: "Singapore" },
+];
+
+interface AppHeaderProps {
+    mobile: boolean;
+    onMenuToggle: () => void;
+}
+
+export function AppHeader({ mobile, onMenuToggle }: AppHeaderProps) {
     return (
         <Header className="app-header">
-            <div className="brand-lockup" aria-label="FleetOps Dispatch Console">
-                <span className="brand-mark">
-                    <TruckOutlined />
-                </span>
-                <span>
-                    <Text className="brand-name">FleetOps</Text>
-                    <Text className="brand-product">Dispatch Console</Text>
-                </span>
-            </div>
+            {mobile ? (
+                <Button
+                    className="mobile-menu-button"
+                    type="text"
+                    icon={<MenuOutlined />}
+                    aria-label="Open navigation"
+                    onClick={onMenuToggle}
+                />
+            ) : null}
 
-            <nav className="primary-nav" aria-label="Primary navigation">
-                <span className="nav-item nav-item-active">Dispatch</span>
-                <span className="nav-item">Planning</span>
-                <span className="nav-item">Tracking</span>
-            </nav>
+            <Space className="header-actions" size={mobile ? "small" : "middle"}>
+                <Dropdown menu={{ items: locationItems, selectable: true, defaultSelectedKeys: ["singapore"] }} trigger={["click"]}>
+                    <Button className="header-control" type="text">
+                        <EnvironmentOutlined />
+                        <span className="location-label">Singapore</span>
+                        <DownOutlined className="header-control-chevron" />
+                    </Button>
+                </Dropdown>
 
-            <Space className="header-actions" size="middle">
-                <span className="operations-indicator">
-                    <Badge status="success" />
-                    Live operations
-                </span>
-                <span className="region-label">
-                    <EnvironmentOutlined /> Singapore
-                </span>
                 <Tooltip title="Notifications">
-                    <Button className="header-icon-button" type="text" icon={<BellOutlined />} />
+                    <Badge dot>
+                        <Button className="header-icon-button" type="text" icon={<BellOutlined />} aria-label="Notifications" />
+                    </Badge>
                 </Tooltip>
-                <Avatar className="dispatcher-avatar">JL</Avatar>
+
+                <Dropdown menu={{ items: userMenuItems }} trigger={["click"]} placement="bottomRight">
+                    <Button className="user-menu-button" type="text" aria-label="Open user menu">
+                        <Avatar className="dispatcher-avatar">JL</Avatar>
+                    </Button>
+                </Dropdown>
             </Space>
         </Header>
     );

@@ -20,6 +20,8 @@ export const themeConfig: ThemeConfig = {
         Layout: {
             headerBg: "#1F2430",
             bodyBg: "#F3F5F7",
+            siderBg: "#1F2430",
+            triggerBg: "#171B24",
         },
         Button: {
             controlHeightLG: 44,
@@ -35,6 +37,17 @@ export const themeConfig: ThemeConfig = {
         },
         Tag: {
             borderRadiusSM: 999,
+        },
+        Menu: {
+            darkItemBg: "#1F2430",
+            darkItemSelectedBg: "#3E3526",
+            darkItemSelectedColor: "#FFB13B",
+            darkItemHoverBg: "#2A303D",
+            itemBorderRadius: 8,
+        },
+        Table: {
+            headerBg: "#F7F8FA",
+            rowHoverBg: "#FFF8EF",
         },
     },
 };

@@ -8,7 +8,7 @@ export const themeConfig: ThemeConfig = {
         colorPrimaryActive: "#D67E00",
         colorLink: "#F49400",
         colorBgLayout: "#F3F5F7",
-        colorBgSpotlight: "#0D1A63",
+        colorBgSpotlight: "#21232dcc",
         colorText: "#181f2a",
         colorTextSecondary: "#64748B",
         colorBorder: "#D9E0E8",

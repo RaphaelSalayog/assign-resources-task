@@ -65,7 +65,16 @@ export function AssignmentPanel({
                 <div>
                     <div className="assignment-eyebrow">Assignment workspace</div>
                     <Space align="center" wrap>
-                        <Title level={2}>{trip.orderRef}</Title>
+                        <Title
+                            level={2}
+                            styles={{ action: { fontSize: 12 } }}
+                            copyable={{
+                                text: trip.orderRef,
+                                tooltips: ["Copy text", "Text copied!"],
+                            }}
+                        >
+                            {trip.orderRef}
+                        </Title>
                         <Tag color={status.color}>{status.label}</Tag>
                     </Space>
                 </div>

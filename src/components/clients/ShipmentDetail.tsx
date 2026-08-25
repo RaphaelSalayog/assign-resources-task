@@ -59,7 +59,16 @@ export function ShipmentDetail({ record, drivers, vehicles }: ShipmentDetailProp
             <div className="shipment-detail-header">
                 <div>
                     <div className="assignment-eyebrow">Client tracking view</div>
-                    <Title level={3}>{trip.orderRef}</Title>
+                    <Title
+                        level={3}
+                        styles={{ action: { fontSize: 12 } }}
+                        copyable={{
+                            text: trip.orderRef,
+                            tooltips: ["Copy text", "Text copied!"],
+                        }}
+                    >
+                        {trip.orderRef}
+                    </Title>
                     <Text type="secondary">{trip.client}</Text>
                 </div>
                 <ShipmentStatusTag status={trip.status} />

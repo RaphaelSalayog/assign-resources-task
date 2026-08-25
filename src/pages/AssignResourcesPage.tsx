@@ -32,7 +32,9 @@ export function AssignResourcesPage({ trips, onTripUpdate }: AssignResourcesPage
     const [flowStatus, setFlowStatus] = useState<AssignmentFlowStatus>("idle");
 
     const selectedTrip = trips.find((trip) => trip.id === selectedTripId);
-    const plannedCount = trips.filter((trip) => trip.status === "TRIP_PLANNED").length;
+    const needsAssignmentCount = trips.filter(
+        (trip) => trip.status === "TRIP_PLANNED" || trip.status === "DRIVER_DECLINED"
+    ).length;
     const assignedCount = trips.filter((trip) => trip.status === "RESOURCES_ASSIGNED").length;
     const confirmedCount = trips.filter((trip) => trip.status === "DRIVER_CONFIRMED").length;
 
@@ -40,7 +42,7 @@ export function AssignResourcesPage({ trips, onTripUpdate }: AssignResourcesPage
         const trip = trips.find((item) => item.id === id);
         setSelectedTripId(id);
         setVehicleId(trip?.assignedVehicleId);
-        setDriverId(trip?.assignedDriverId);
+        setDriverId(trip?.status === "DRIVER_DECLINED" ? undefined : trip?.assignedDriverId);
         setDispatchTime(
             trip?.dispatchTime
                 ? dayjs(trip.dispatchTime)
@@ -115,7 +117,7 @@ export function AssignResourcesPage({ trips, onTripUpdate }: AssignResourcesPage
                             <ClockCircleOutlined />
                         </span>
                         <span>
-                            <Text strong>{plannedCount}</Text>
+                            <Text strong>{needsAssignmentCount}</Text>
                             <Text type="secondary">To assign</Text>
                         </span>
                     </div>

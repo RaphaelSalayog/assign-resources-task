@@ -23,7 +23,7 @@ const statusOptions = [
     { value: "TRIP_PLANNED", label: "Awaiting resources" },
     { value: "RESOURCES_ASSIGNED", label: "Resources assigned" },
     { value: "DRIVER_CONFIRMED", label: "Driver confirmed" },
-    { value: "AWAITING_PLANNING", label: "Planning pending" },
+    { value: "DRIVER_DECLINED", label: "Driver declined" },
 ];
 
 interface ClientsPageProps {

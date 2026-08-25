@@ -8,8 +8,8 @@ export const themeConfig: ThemeConfig = {
         colorPrimaryActive: "#D67E00",
         colorLink: "#F49400",
         colorBgLayout: "#F3F5F7",
-        colorBgSpotlight: "#1F2430",
-        colorText: "#1F2937",
+        colorBgSpotlight: "#0D1A63",
+        colorText: "#181f2a",
         colorTextSecondary: "#64748B",
         colorBorder: "#D9E0E8",
         colorBorderSecondary: "#E7EBF0",
@@ -18,15 +18,16 @@ export const themeConfig: ThemeConfig = {
     },
     components: {
         Layout: {
-            headerBg: "#1F2430",
+            headerBg: "#0e1336",
             bodyBg: "#F3F5F7",
-            siderBg: "#1F2430",
-            triggerBg: "#171B24",
+            siderBg: "#0e1336",
+            triggerBg: "#0e1336",
         },
         Button: {
             controlHeightLG: 44,
             borderRadiusLG: 10,
             primaryShadow: "none",
+            textTextHoverColor: "#FFF8EF",
         },
         Card: {
             headerBg: "#FFFFFF",
@@ -39,7 +40,7 @@ export const themeConfig: ThemeConfig = {
             borderRadiusSM: 999,
         },
         Menu: {
-            darkItemBg: "#1F2430",
+            darkItemBg: "#0e1336",
             darkItemSelectedBg: "#3E3526",
             darkItemSelectedColor: "#FFB13B",
             darkItemHoverBg: "#2A303D",

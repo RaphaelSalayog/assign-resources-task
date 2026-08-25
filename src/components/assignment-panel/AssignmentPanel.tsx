@@ -9,10 +9,10 @@ import { TripSummary } from "./TripSummary";
 const { Text, Title } = Typography;
 
 const statusLabels: Record<TripStatus, { label: string; color: string }> = {
-    AWAITING_PLANNING: { label: "Awaiting planning", color: "default" },
     TRIP_PLANNED: { label: "Trip planned", color: "warning" },
     RESOURCES_ASSIGNED: { label: "Resources assigned", color: "processing" },
     DRIVER_CONFIRMED: { label: "Driver confirmed", color: "success" },
+    DRIVER_DECLINED: { label: "Driver declined", color: "error" },
 };
 
 interface AssignmentPanelProps {
@@ -51,12 +51,13 @@ export function AssignmentPanel({
     }
 
     const status = statusLabels[trip.status];
+    const isDeclined = trip.status === "DRIVER_DECLINED";
     const isExistingAssignment =
         trip.status === "RESOURCES_ASSIGNED" || trip.status === "DRIVER_CONFIRMED";
     const isAssigned = flowStatus === "assigned" || isExistingAssignment;
     const isValidating = flowStatus === "validating";
     const canAssign =
-        trip.status === "TRIP_PLANNED" &&
+        (trip.status === "TRIP_PLANNED" || isDeclined) &&
         Boolean(vehicleId && driverId && dispatchTime) &&
         !isValidating;
     return (
@@ -119,7 +120,9 @@ export function AssignmentPanel({
                         ? "Resources assigned"
                         : isValidating
                           ? "Running checks"
-                          : "Assign resources"}
+                          : isDeclined
+                            ? "Reassign resources"
+                            : "Assign resources"}
                 </Button>
             </div>
         </main>

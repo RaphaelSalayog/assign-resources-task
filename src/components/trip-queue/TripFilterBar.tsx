@@ -16,7 +16,7 @@ const statusOptions = [
     { value: "TRIP_PLANNED", label: "Trip planned" },
     { value: "RESOURCES_ASSIGNED", label: "Resources assigned" },
     { value: "DRIVER_CONFIRMED", label: "Driver confirmed" },
-    { value: "AWAITING_PLANNING", label: "Awaiting planning" },
+    { value: "DRIVER_DECLINED", label: "Driver declined" },
 ];
 
 export function TripFilterBar({

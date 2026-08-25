@@ -23,7 +23,9 @@ export function TripQueue({ trips, selectedTripId, onSelectTrip }: TripQueueProp
         return matchesStatus && searchable.includes(deferredSearch);
     });
 
-    const plannedCount = trips.filter((trip) => trip.status === "TRIP_PLANNED").length;
+    const needsAssignmentCount = trips.filter(
+        (trip) => trip.status === "TRIP_PLANNED" || trip.status === "DRIVER_DECLINED"
+    ).length;
 
     return (
         <aside className="trip-queue" aria-label="Trip queue">
@@ -32,7 +34,7 @@ export function TripQueue({ trips, selectedTripId, onSelectTrip }: TripQueueProp
                     <Title level={3}>Trip queue</Title>
                     <Text type="secondary">Planned work awaiting dispatch</Text>
                 </div>
-                <span className="queue-count">{plannedCount} to assign</span>
+                <span className="queue-count">{needsAssignmentCount} to assign</span>
             </div>
 
             <TripFilterBar

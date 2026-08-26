@@ -1,5 +1,6 @@
 import CheckCircleFilled from "@ant-design/icons/CheckCircleFilled";
 import ClockCircleOutlined from "@ant-design/icons/ClockCircleOutlined";
+import CloseCircleFilled from "@ant-design/icons/CloseCircleFilled";
 import ThunderboltOutlined from "@ant-design/icons/ThunderboltOutlined";
 import TruckOutlined from "@ant-design/icons/TruckOutlined";
 import { App, Breadcrumb, Typography } from "antd";
@@ -37,6 +38,9 @@ export function AssignResourcesPage({ trips, onTripUpdate }: AssignResourcesPage
     ).length;
     const assignedCount = trips.filter((trip) => trip.status === "RESOURCES_ASSIGNED").length;
     const confirmedCount = trips.filter((trip) => trip.status === "DRIVER_CONFIRMED").length;
+    const dispatcherDeclinedCount = trips.filter(
+        (trip) => trip.status === "DISPATCHER_DECLINED"
+    ).length;
 
     const selectTrip = (id: string) => {
         const trip = trips.find((item) => item.id === id);
@@ -176,6 +180,15 @@ export function AssignResourcesPage({ trips, onTripUpdate }: AssignResourcesPage
                         <span>
                             <Text strong>{confirmedCount}</Text>
                             <Text type="secondary">Confirmed</Text>
+                        </span>
+                    </div>
+                    <div>
+                        <span className="metric-icon metric-icon-error">
+                            <CloseCircleFilled />
+                        </span>
+                        <span>
+                            <Text strong>{dispatcherDeclinedCount}</Text>
+                            <Text type="secondary">Declined</Text>
                         </span>
                     </div>
                 </div>

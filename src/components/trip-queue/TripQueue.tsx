@@ -32,7 +32,7 @@ export function TripQueue({ trips, selectedTripId, onSelectTrip }: TripQueueProp
             <div className="queue-heading">
                 <div>
                     <Title level={3}>Trip queue</Title>
-                    <Text type="secondary">Planned work awaiting dispatch</Text>
+                    <Text type="secondary">Planned trips awaiting dispatch</Text>
                 </div>
                 <span className="queue-count">{needsAssignmentCount} to assign</span>
             </div>

@@ -23,7 +23,7 @@ export function ShipmentMetrics({ trips }: ShipmentMetricsProps) {
         <div className="client-metrics" aria-label="Shipment visibility summary">
             <div className="client-metric-card">
                 <span className="metric-icon metric-icon-primary"><RadarChartOutlined /></span>
-                <span><Text strong>{active}</Text><Text type="secondary">Active shipments</Text></span>
+                <span><Text strong>{active}</Text><Text type="secondary">Total Trips</Text></span>
             </div>
             <div className="client-metric-card">
                 <span className="metric-icon metric-icon-warning"><ClockCircleOutlined /></span>

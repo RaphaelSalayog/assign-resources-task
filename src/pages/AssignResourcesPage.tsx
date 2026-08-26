@@ -22,7 +22,7 @@ interface AssignResourcesPageProps {
 }
 
 export function AssignResourcesPage({ trips, onTripUpdate }: AssignResourcesPageProps) {
-    const { message, notification } = App.useApp();
+    const { message, modal, notification } = App.useApp();
     const [selectedTripId, setSelectedTripId] = useState<string>("trip-001");
     const [vehicleId, setVehicleId] = useState<string>();
     const [driverId, setDriverId] = useState<string>();
@@ -41,10 +41,18 @@ export function AssignResourcesPage({ trips, onTripUpdate }: AssignResourcesPage
     const selectTrip = (id: string) => {
         const trip = trips.find((item) => item.id === id);
         setSelectedTripId(id);
-        setVehicleId(trip?.assignedVehicleId);
-        setDriverId(trip?.status === "DRIVER_DECLINED" ? undefined : trip?.assignedDriverId);
+        setVehicleId(
+            trip?.status === "DISPATCHER_DECLINED" ? undefined : trip?.assignedVehicleId
+        );
+        setDriverId(
+            trip?.status === "DRIVER_DECLINED" || trip?.status === "DISPATCHER_DECLINED"
+                ? undefined
+                : trip?.assignedDriverId
+        );
         setDispatchTime(
-            trip?.dispatchTime
+            trip?.status === "DISPATCHER_DECLINED"
+                ? null
+                : trip?.dispatchTime
                 ? dayjs(trip.dispatchTime)
                 : dayjs().add(30, "minute").startOf("minute")
         );
@@ -95,6 +103,37 @@ export function AssignResourcesPage({ trips, onTripUpdate }: AssignResourcesPage
         });
         setFlowStatus("assigned");
         message.success(`${selectedTrip.orderRef}: vehicle and driver assigned`);
+    };
+
+    const declineTrip = () => {
+        if (
+            !selectedTrip
+            || (selectedTrip.status !== "TRIP_PLANNED"
+                && selectedTrip.status !== "DRIVER_DECLINED")
+        ) {
+            return;
+        }
+
+        modal.confirm({
+            title: "Decline trip?",
+            content: `This will mark ${selectedTrip.orderRef} as declined by the dispatcher and clear its selected resources.`,
+            okText: "Decline trip",
+            okButtonProps: { danger: true },
+            cancelText: "Cancel",
+            onOk: () => {
+                onTripUpdate(selectedTrip.id, {
+                    status: "DISPATCHER_DECLINED",
+                    assignedVehicleId: undefined,
+                    assignedDriverId: undefined,
+                    dispatchTime: undefined,
+                });
+                setVehicleId(undefined);
+                setDriverId(undefined);
+                setDispatchTime(null);
+                setFlowStatus("idle");
+                message.success(`${selectedTrip.orderRef}: trip declined by dispatcher`);
+            },
+        });
     };
 
     return (
@@ -160,6 +199,7 @@ export function AssignResourcesPage({ trips, onTripUpdate }: AssignResourcesPage
                     onDriverChange={handleDriverChange}
                     onDispatchTimeChange={setDispatchTime}
                     onAssign={assignResources}
+                    onDecline={declineTrip}
                 />
             </div>
         </div>

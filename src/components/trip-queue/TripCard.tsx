@@ -14,6 +14,7 @@ const statusPresentation: Record<
     RESOURCES_ASSIGNED: { label: "Resources assigned", badge: "processing" },
     DRIVER_CONFIRMED: { label: "Driver confirmed", badge: "success" },
     DRIVER_DECLINED: { label: "Driver declined", badge: "error" },
+    DISPATCHER_DECLINED: { label: "Dispatcher declined", badge: "error" },
 };
 
 interface TripCardProps {

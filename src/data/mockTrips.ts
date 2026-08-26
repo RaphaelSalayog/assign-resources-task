@@ -87,4 +87,15 @@ export const mockTrips: Trip[] = [
         assignedDriverId: "driver-006",
         dispatchTime: "2026-08-06T15:15:00+08:00",
     },
+    {
+        id: "trip-008",
+        orderRef: "ORD-260806-1082",
+        client: "Summit Components",
+        pickup: "Pasir Panjang Terminal",
+        delivery: "Kallang Distribution Centre",
+        requestedWindow: "Aug 6, 5:00–7:00 PM",
+        vehicleRequirement: "14ft box truck",
+        routeConstraints: "Restricted access · Dock booking required",
+        status: "DISPATCHER_DECLINED",
+    },
 ];

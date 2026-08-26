@@ -1,4 +1,5 @@
 import CheckCircleOutlined from "@ant-design/icons/CheckCircleOutlined";
+import CloseCircleOutlined from "@ant-design/icons/CloseCircleOutlined";
 import ThunderboltOutlined from "@ant-design/icons/ThunderboltOutlined";
 import { Button, Card, Empty, Space, Tag, Typography } from "antd";
 import type { Dayjs } from "dayjs";
@@ -13,6 +14,7 @@ const statusLabels: Record<TripStatus, { label: string; color: string }> = {
     RESOURCES_ASSIGNED: { label: "Resources assigned", color: "processing" },
     DRIVER_CONFIRMED: { label: "Driver confirmed", color: "success" },
     DRIVER_DECLINED: { label: "Driver declined", color: "error" },
+    DISPATCHER_DECLINED: { label: "Dispatcher declined", color: "error" },
 };
 
 interface AssignmentPanelProps {
@@ -27,6 +29,7 @@ interface AssignmentPanelProps {
     onDriverChange: (value?: string) => void;
     onDispatchTimeChange: (value: Dayjs | null) => void;
     onAssign: () => void;
+    onDecline: () => void;
 }
 
 export function AssignmentPanel({
@@ -41,6 +44,7 @@ export function AssignmentPanel({
     onDriverChange,
     onDispatchTimeChange,
     onAssign,
+    onDecline,
 }: AssignmentPanelProps) {
     if (!trip) {
         return (
@@ -52,6 +56,7 @@ export function AssignmentPanel({
 
     const status = statusLabels[trip.status];
     const isDeclined = trip.status === "DRIVER_DECLINED";
+    const isDispatcherDeclined = trip.status === "DISPATCHER_DECLINED";
     const isExistingAssignment =
         trip.status === "RESOURCES_ASSIGNED" || trip.status === "DRIVER_CONFIRMED";
     const isAssigned = flowStatus === "assigned" || isExistingAssignment;
@@ -60,6 +65,9 @@ export function AssignmentPanel({
         (trip.status === "TRIP_PLANNED" || isDeclined) &&
         Boolean(vehicleId && driverId && dispatchTime) &&
         !isValidating;
+    const canDecline =
+        (trip.status === "TRIP_PLANNED" || isDeclined) && !isValidating;
+
     return (
         <main className="assignment-panel" aria-label="Resource assignment workspace">
             <div className="assignment-header">
@@ -93,7 +101,12 @@ export function AssignmentPanel({
                 vehicleId={vehicleId}
                 driverId={driverId}
                 dispatchTime={dispatchTime}
-                disabled={isValidating || isExistingAssignment || flowStatus === "assigned"}
+                disabled={
+                    isValidating
+                    || isExistingAssignment
+                    || isDispatcherDeclined
+                    || flowStatus === "assigned"
+                }
                 onVehicleChange={onVehicleChange}
                 onDriverChange={onDriverChange}
                 onDispatchTimeChange={onDispatchTimeChange}
@@ -101,29 +114,49 @@ export function AssignmentPanel({
 
             <div className="assignment-action-bar">
                 <div className="assignment-request-status">
-                    <CheckCircleOutlined />
+                    {isDispatcherDeclined ? (
+                        <CloseCircleOutlined className="assignment-status-icon-declined" />
+                    ) : (
+                        <CheckCircleOutlined />
+                    )}
                     <Text type="secondary">
-                        {isValidating
+                        {isDispatcherDeclined
+                            ? "Trip declined by dispatcher"
+                            : isValidating
                             ? "Validating assignment request…"
                             : "Ready to submit assignment"}
                     </Text>
                 </div>
-                <Button
-                    type="primary"
-                    size="large"
-                    icon={<ThunderboltOutlined />}
-                    disabled={!canAssign || isAssigned}
-                    loading={isValidating}
-                    onClick={onAssign}
-                >
-                    {isAssigned
-                        ? "Resources assigned"
-                        : isValidating
-                          ? "Running checks"
-                          : isDeclined
-                            ? "Reassign resources"
-                            : "Assign resources"}
-                </Button>
+                <div className="assignment-actions">
+                    <Button
+                        className="assignment-decline-button"
+                        danger
+                        size="large"
+                        icon={<CloseCircleOutlined />}
+                        disabled={!canDecline}
+                        onClick={onDecline}
+                    >
+                        Decline
+                    </Button>
+                    <Button
+                        type="primary"
+                        size="large"
+                        icon={<ThunderboltOutlined />}
+                        disabled={!canAssign || isAssigned}
+                        loading={isValidating}
+                        onClick={onAssign}
+                    >
+                        {isAssigned
+                            ? "Resources assigned"
+                            : isDispatcherDeclined
+                              ? "Trip declined"
+                              : isValidating
+                                ? "Running checks"
+                                : isDeclined
+                                  ? "Reassign resources"
+                                  : "Assign resources"}
+                    </Button>
+                </div>
             </div>
         </main>
     );

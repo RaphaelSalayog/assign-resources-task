@@ -677,6 +677,10 @@ input {
     font-size: 18px;
 }
 
+.assignment-request-status > .assignment-status-icon-declined {
+    color: var(--ant-color-error);
+}
+
 .assignment-request-status .ant-typography {
     font-size: 10px;
 }
@@ -684,6 +688,16 @@ input {
 .assignment-action-bar .ant-btn {
     min-width: 190px;
     font-weight: 700;
+}
+
+.assignment-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.assignment-action-bar .assignment-decline-button {
+    min-width: 128px;
 }
 
 .clients-title-row {
@@ -1178,6 +1192,11 @@ input {
 
     .assignment-action-bar .ant-btn {
         width: 100%;
+    }
+
+    .assignment-actions {
+        width: 100%;
+        flex-direction: column;
     }
 
     .client-metrics {

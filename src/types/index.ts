@@ -2,7 +2,8 @@ export type TripStatus =
     | "TRIP_PLANNED"
     | "RESOURCES_ASSIGNED"
     | "DRIVER_CONFIRMED"
-    | "DRIVER_DECLINED";
+    | "DRIVER_DECLINED"
+    | "DISPATCHER_DECLINED";
 
 export type AssignmentFlowStatus = "idle" | "ready" | "validating" | "assigned" | "error";
 

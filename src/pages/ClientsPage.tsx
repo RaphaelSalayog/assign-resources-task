@@ -24,6 +24,7 @@ const statusOptions = [
     { value: "RESOURCES_ASSIGNED", label: "Resources assigned" },
     { value: "DRIVER_CONFIRMED", label: "Driver confirmed" },
     { value: "DRIVER_DECLINED", label: "Driver declined" },
+    { value: "DISPATCHER_DECLINED", label: "Dispatcher declined" },
 ];
 
 interface ClientsPageProps {

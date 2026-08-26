@@ -5,6 +5,7 @@ export const tripStatusRank: Record<TripStatus, number> = {
     RESOURCES_ASSIGNED: 2,
     DRIVER_CONFIRMED: 3,
     DRIVER_DECLINED: 2,
+    DISPATCHER_DECLINED: 1,
 };
 
 export const milestoneRank: Record<ShipmentMilestoneKey, number> = {
@@ -21,6 +22,7 @@ export const assignmentStatus: Record<TripStatus, string> = {
     RESOURCES_ASSIGNED: "Resources assigned",
     DRIVER_CONFIRMED: "Driver confirmed",
     DRIVER_DECLINED: "Driver declined",
+    DISPATCHER_DECLINED: "Dispatcher declined",
 };
 
 export const dispatchStatus: Record<TripStatus, string> = {
@@ -28,6 +30,7 @@ export const dispatchStatus: Record<TripStatus, string> = {
     RESOURCES_ASSIGNED: "Awaiting driver",
     DRIVER_CONFIRMED: "Ready for pickup",
     DRIVER_DECLINED: "Reassignment required",
+    DISPATCHER_DECLINED: "Declined by dispatcher",
 };
 
 export const statusColor: Record<TripStatus, string> = {
@@ -35,4 +38,5 @@ export const statusColor: Record<TripStatus, string> = {
     RESOURCES_ASSIGNED: "processing",
     DRIVER_CONFIRMED: "success",
     DRIVER_DECLINED: "error",
+    DISPATCHER_DECLINED: "error",
 };

@@ -1,6 +1,6 @@
 import ApartmentOutlined from "@ant-design/icons/ApartmentOutlined";
-import MenuFoldOutlined from "@ant-design/icons/MenuFoldOutlined";
-import MenuUnfoldOutlined from "@ant-design/icons/MenuUnfoldOutlined";
+import LeftCircleOutlined from "@ant-design/icons/es/icons/LeftCircleOutlined";
+import RightCircleOutlined from "@ant-design/icons/es/icons/RightCircleOutlined";
 import TeamOutlined from "@ant-design/icons/TeamOutlined";
 import TruckOutlined from "@ant-design/icons/TruckOutlined";
 import { Button, Layout, Menu, Tooltip, Typography } from "antd";
@@ -60,6 +60,18 @@ export function AppSidebar({
                             <Text className="brand-product">Operations platform</Text>
                         </span>
                     ) : null}
+
+                    {!mobile ? (
+                        <Tooltip title={collapsed ? "Expand sidebar" : "Collapse sidebar"} placement="right">
+                            <Button
+                                className="sidebar-collapse-button"
+                                type="text"
+                                aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+                                icon={collapsed ? <RightCircleOutlined /> : <LeftCircleOutlined />}
+                                onClick={() => onCollapse(!collapsed)}
+                            />
+                        </Tooltip>
+                    ) : null}
                 </div>
 
                 {!collapsed ? <div className="sidebar-section-label">Workspace</div> : null}
@@ -72,21 +84,6 @@ export function AppSidebar({
                     selectedKeys={[selectedKey]}
                     onClick={handleMenuClick}
                 />
-
-                {!mobile ? (
-                    <div className="sidebar-footer">
-                        <Tooltip title={collapsed ? "Expand sidebar" : "Collapse sidebar"} placement="right">
-                            <Button
-                                className="sidebar-collapse-button"
-                                type="text"
-                                shape="circle"
-                                aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
-                                icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-                                onClick={() => onCollapse(!collapsed)}
-                            />
-                        </Tooltip>
-                    </div>
-                ) : null}
             </div>
         </Sider>
     );

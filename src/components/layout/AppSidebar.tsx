@@ -1,3 +1,4 @@
+import { DashboardOutlined, FileTextOutlined, ScheduleOutlined, InboxOutlined, EnvironmentOutlined, CarOutlined, DollarOutlined, BarChartOutlined, SettingOutlined } from "@ant-design/icons";
 import ApartmentOutlined from "@ant-design/icons/ApartmentOutlined";
 import LeftCircleOutlined from "@ant-design/icons/es/icons/LeftCircleOutlined";
 import RightCircleOutlined from "@ant-design/icons/es/icons/RightCircleOutlined";
@@ -11,8 +12,17 @@ const { Sider } = Layout;
 const { Text } = Typography;
 
 const navigationItems: MenuProps["items"] = [
+    { key: "/dashboard", icon: <DashboardOutlined />, label: "Dashboard", disabled: true },
+    { key: "/orders", icon: <FileTextOutlined />, label: "Orders", disabled: true },
+    { key: "/planning", icon: <ScheduleOutlined />, label: "Planning", disabled: true },
     { key: "/dispatch", icon: <ApartmentOutlined />, label: "Dispatch" },
+    { key: "/operations", icon: <InboxOutlined />, label: "Operations", disabled: true },
+    { key: "/tracking", icon: <EnvironmentOutlined />, label: "Tracking", disabled: true },
+    { key: "/delivery", icon: <CarOutlined />, label: "Delivery", disabled: true },
+    { key: "/billing", icon: <DollarOutlined />, label: "Billing", disabled: true },
+    { key: "/analytics", icon: <BarChartOutlined />, label: "Analytics", disabled: true },
     { key: "/clients", icon: <TeamOutlined />, label: "Clients" },
+    { key: "/admin", icon: <SettingOutlined />, label: "Administration", disabled: true },
 ];
 
 interface AppSidebarProps {
@@ -73,8 +83,7 @@ export function AppSidebar({
                         </Tooltip>
                     ) : null}
                 </div>
-
-                {!collapsed ? <div className="sidebar-section-label">Workspace</div> : null}
+                
                 <Menu
                     className="sidebar-menu"
                     mode="inline"

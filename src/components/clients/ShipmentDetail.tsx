@@ -34,10 +34,11 @@ export function ShipmentDetail({ record, drivers, vehicles }: ShipmentDetailProp
     const driver = drivers.find((item) => item.id === trip.assignedDriverId);
     const vehicle = vehicles.find((item) => item.id === trip.assignedVehicleId);
     const currentRank = tripStatusRank[trip.status];
+    const isDispatcherDeclined = trip.status === "DISPATCHER_DECLINED";
     const timelineItems = visibility.milestones.map((milestone) => {
         const rank = milestoneRank[milestone.key];
         const complete = rank <= currentRank;
-        const current = rank === currentRank + 1;
+        const current = !isDispatcherDeclined && rank === currentRank + 1;
         const timestamp = milestone.timestamp
             ?? (complete ? `Updated ${visibility.lastUpdated}` : "Pending");
 

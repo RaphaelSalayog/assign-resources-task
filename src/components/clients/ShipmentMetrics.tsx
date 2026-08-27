@@ -1,5 +1,6 @@
 import CheckCircleFilled from "@ant-design/icons/CheckCircleFilled";
 import ClockCircleOutlined from "@ant-design/icons/ClockCircleOutlined";
+import CloseCircleFilled from "@ant-design/icons/CloseCircleFilled";
 import RadarChartOutlined from "@ant-design/icons/RadarChartOutlined";
 import TruckOutlined from "@ant-design/icons/TruckOutlined";
 import { Typography } from "antd";
@@ -18,6 +19,9 @@ export function ShipmentMetrics({ trips }: ShipmentMetricsProps) {
     ).length;
     const assigned = trips.filter((trip) => trip.status === "RESOURCES_ASSIGNED").length;
     const confirmed = trips.filter((trip) => trip.status === "DRIVER_CONFIRMED").length;
+    const dispatcherDeclined = trips.filter(
+        (trip) => trip.status === "DISPATCHER_DECLINED"
+    ).length;
 
     return (
         <div className="client-metrics" aria-label="Shipment visibility summary">
@@ -36,6 +40,10 @@ export function ShipmentMetrics({ trips }: ShipmentMetricsProps) {
             <div className="client-metric-card">
                 <span className="metric-icon metric-icon-success"><CheckCircleFilled /></span>
                 <span><Text strong>{confirmed}</Text><Text type="secondary">Driver confirmed</Text></span>
+            </div>
+            <div className="client-metric-card">
+                <span className="metric-icon metric-icon-error"><CloseCircleFilled /></span>
+                <span><Text strong>{dispatcherDeclined}</Text><Text type="secondary">Declined</Text></span>
             </div>
         </div>
     );

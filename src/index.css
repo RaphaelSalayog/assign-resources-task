@@ -314,6 +314,11 @@ input {
     color: var(--ant-color-success-text);
 }
 
+.metric-icon-error {
+    background: var(--ant-color-error-bg);
+    color: var(--ant-color-error-text);
+}
+
 .dispatch-workspace {
     display: grid;
     align-items: start;
@@ -677,6 +682,10 @@ input {
     font-size: 18px;
 }
 
+.assignment-request-status > .assignment-status-icon-declined {
+    color: var(--ant-color-error);
+}
+
 .assignment-request-status .ant-typography {
     font-size: 10px;
 }
@@ -686,13 +695,23 @@ input {
     font-weight: 700;
 }
 
+.assignment-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.assignment-action-bar .assignment-decline-button {
+    min-width: 128px;
+}
+
 .clients-title-row {
     align-items: flex-start;
 }
 
 .client-metrics {
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(5, minmax(0, 1fr));
     gap: 12px;
     margin-bottom: 18px;
 }
@@ -1178,6 +1197,11 @@ input {
 
     .assignment-action-bar .ant-btn {
         width: 100%;
+    }
+
+    .assignment-actions {
+        width: 100%;
+        flex-direction: column;
     }
 
     .client-metrics {

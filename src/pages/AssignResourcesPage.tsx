@@ -1,5 +1,6 @@
 import CheckCircleFilled from "@ant-design/icons/CheckCircleFilled";
 import ClockCircleOutlined from "@ant-design/icons/ClockCircleOutlined";
+import CloseCircleFilled from "@ant-design/icons/CloseCircleFilled";
 import ThunderboltOutlined from "@ant-design/icons/ThunderboltOutlined";
 import TruckOutlined from "@ant-design/icons/TruckOutlined";
 import { App, Breadcrumb, Typography } from "antd";
@@ -22,7 +23,7 @@ interface AssignResourcesPageProps {
 }
 
 export function AssignResourcesPage({ trips, onTripUpdate }: AssignResourcesPageProps) {
-    const { message, notification } = App.useApp();
+    const { message, modal, notification } = App.useApp();
     const [selectedTripId, setSelectedTripId] = useState<string>("trip-001");
     const [vehicleId, setVehicleId] = useState<string>();
     const [driverId, setDriverId] = useState<string>();
@@ -37,14 +38,25 @@ export function AssignResourcesPage({ trips, onTripUpdate }: AssignResourcesPage
     ).length;
     const assignedCount = trips.filter((trip) => trip.status === "RESOURCES_ASSIGNED").length;
     const confirmedCount = trips.filter((trip) => trip.status === "DRIVER_CONFIRMED").length;
+    const dispatcherDeclinedCount = trips.filter(
+        (trip) => trip.status === "DISPATCHER_DECLINED"
+    ).length;
 
     const selectTrip = (id: string) => {
         const trip = trips.find((item) => item.id === id);
         setSelectedTripId(id);
-        setVehicleId(trip?.assignedVehicleId);
-        setDriverId(trip?.status === "DRIVER_DECLINED" ? undefined : trip?.assignedDriverId);
+        setVehicleId(
+            trip?.status === "DISPATCHER_DECLINED" ? undefined : trip?.assignedVehicleId
+        );
+        setDriverId(
+            trip?.status === "DRIVER_DECLINED" || trip?.status === "DISPATCHER_DECLINED"
+                ? undefined
+                : trip?.assignedDriverId
+        );
         setDispatchTime(
-            trip?.dispatchTime
+            trip?.status === "DISPATCHER_DECLINED"
+                ? null
+                : trip?.dispatchTime
                 ? dayjs(trip.dispatchTime)
                 : dayjs().add(30, "minute").startOf("minute")
         );
@@ -97,6 +109,37 @@ export function AssignResourcesPage({ trips, onTripUpdate }: AssignResourcesPage
         message.success(`${selectedTrip.orderRef}: vehicle and driver assigned`);
     };
 
+    const declineTrip = () => {
+        if (
+            !selectedTrip
+            || (selectedTrip.status !== "TRIP_PLANNED"
+                && selectedTrip.status !== "DRIVER_DECLINED")
+        ) {
+            return;
+        }
+
+        modal.confirm({
+            title: "Decline trip?",
+            content: `This will mark ${selectedTrip.orderRef} as declined by the dispatcher and clear its selected resources.`,
+            okText: "Decline trip",
+            okButtonProps: { danger: true },
+            cancelText: "Cancel",
+            onOk: () => {
+                onTripUpdate(selectedTrip.id, {
+                    status: "DISPATCHER_DECLINED",
+                    assignedVehicleId: undefined,
+                    assignedDriverId: undefined,
+                    dispatchTime: undefined,
+                });
+                setVehicleId(undefined);
+                setDriverId(undefined);
+                setDispatchTime(null);
+                setFlowStatus("idle");
+                message.success(`${selectedTrip.orderRef}: trip declined by dispatcher`);
+            },
+        });
+    };
+
     return (
         <div className="assign-resources-page">
             <Breadcrumb items={[{ title: "Dispatch Console" }, { title: "Assign Resources" }]} />
@@ -139,6 +182,15 @@ export function AssignResourcesPage({ trips, onTripUpdate }: AssignResourcesPage
                             <Text type="secondary">Confirmed</Text>
                         </span>
                     </div>
+                    <div>
+                        <span className="metric-icon metric-icon-error">
+                            <CloseCircleFilled />
+                        </span>
+                        <span>
+                            <Text strong>{dispatcherDeclinedCount}</Text>
+                            <Text type="secondary">Declined</Text>
+                        </span>
+                    </div>
                 </div>
             </div>
 
@@ -160,6 +212,7 @@ export function AssignResourcesPage({ trips, onTripUpdate }: AssignResourcesPage
                     onDriverChange={handleDriverChange}
                     onDispatchTimeChange={setDispatchTime}
                     onAssign={assignResources}
+                    onDecline={declineTrip}
                 />
             </div>
         </div>

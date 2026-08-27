@@ -95,4 +95,11 @@ export const mockShipmentVisibility: ShipmentVisibility[] = [
         serviceLevel: "Secure cargo",
         milestones: milestonesWith({ RESOURCES_ASSIGNED: "Aug 5 · 12:35 PM" }),
     },
+    {
+        tripId: "trip-008",
+        eta: "Dispatch declined",
+        lastUpdated: "12 min ago",
+        serviceLevel: "Standard same-day",
+        milestones: milestonesWith({ TRIP_PLANNED: "Aug 5 · 12:30 PM" }),
+    },
 ];

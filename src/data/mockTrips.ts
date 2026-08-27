@@ -82,6 +82,9 @@ export const mockTrips: Trip[] = [
         requestedWindow: "Aug 6, 4:00–6:00 PM",
         vehicleRequirement: "14ft box truck",
         routeConstraints: "Security clearance required",
-        status: "AWAITING_PLANNING",
+        status: "DRIVER_DECLINED",
+        assignedVehicleId: "vehicle-001",
+        assignedDriverId: "driver-006",
+        dispatchTime: "2026-08-06T15:15:00+08:00",
     },
 ];

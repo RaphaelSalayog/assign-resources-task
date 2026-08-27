@@ -12,8 +12,10 @@ interface ShipmentMetricsProps {
 }
 
 export function ShipmentMetrics({ trips }: ShipmentMetricsProps) {
-    const active = trips.filter((trip) => trip.status !== "AWAITING_PLANNING").length;
-    const awaiting = trips.filter((trip) => trip.status === "TRIP_PLANNED").length;
+    const active = trips.length;
+    const needsAssignment = trips.filter(
+        (trip) => trip.status === "TRIP_PLANNED" || trip.status === "DRIVER_DECLINED"
+    ).length;
     const assigned = trips.filter((trip) => trip.status === "RESOURCES_ASSIGNED").length;
     const confirmed = trips.filter((trip) => trip.status === "DRIVER_CONFIRMED").length;
 
@@ -21,11 +23,11 @@ export function ShipmentMetrics({ trips }: ShipmentMetricsProps) {
         <div className="client-metrics" aria-label="Shipment visibility summary">
             <div className="client-metric-card">
                 <span className="metric-icon metric-icon-primary"><RadarChartOutlined /></span>
-                <span><Text strong>{active}</Text><Text type="secondary">Active shipments</Text></span>
+                <span><Text strong>{active}</Text><Text type="secondary">Total Trips</Text></span>
             </div>
             <div className="client-metric-card">
                 <span className="metric-icon metric-icon-warning"><ClockCircleOutlined /></span>
-                <span><Text strong>{awaiting}</Text><Text type="secondary">Awaiting assignment</Text></span>
+                <span><Text strong>{needsAssignment}</Text><Text type="secondary">Needs assignment</Text></span>
             </div>
             <div className="client-metric-card">
                 <span className="metric-icon metric-icon-primary"><TruckOutlined /></span>

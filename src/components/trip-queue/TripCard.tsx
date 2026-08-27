@@ -8,12 +8,12 @@ const { Text } = Typography;
 
 const statusPresentation: Record<
     TripStatus,
-    { label: string; badge: "default" | "processing" | "success" | "warning" }
+    { label: string; badge: "default" | "error" | "processing" | "success" | "warning" }
 > = {
-    AWAITING_PLANNING: { label: "Awaiting planning", badge: "default" },
     TRIP_PLANNED: { label: "Trip planned", badge: "warning" },
     RESOURCES_ASSIGNED: { label: "Resources assigned", badge: "processing" },
     DRIVER_CONFIRMED: { label: "Driver confirmed", badge: "success" },
+    DRIVER_DECLINED: { label: "Driver declined", badge: "error" },
 };
 
 interface TripCardProps {

@@ -93,7 +93,7 @@ Per your direction: **List + Detail layout.**
 
 ### 4.1 Left Panel — Trip Queue
 
-- List of trips in status `Trip Planned` (awaiting resource assignment), plus a few in other statuses (`Resources Assigned`, `Driver Confirmed`) so the queue looks realistic and filterable.
+- List of trips in status `Trip Planned` (awaiting resource assignment), plus a few in other statuses (`Resources Assigned`, `Driver Confirmed`, `Driver Declined`) so the queue looks realistic and filterable.
 - Each trip card shows: order reference, pickup → delivery route (short text), requested time window, vehicle requirement tag, status badge.
 - Search/filter bar on top (by order ref, route, or status) — filtering can be purely client-side against mock data.
 - Clicking a card selects it and populates the right panel.
@@ -152,6 +152,12 @@ This directly visualizes the "Platform Activity" tags from your existing step ca
 [assigned: status → Resources Assigned]
         ↓
 [success toast + queue list updates + right panel shows confirmation state]
+
+[driver declined: prior vehicle + dispatch time retained]
+        ↓ select replacement driver
+[ready: Reassign resources button enabled]
+        ↓ validate and submit
+[assigned: status → Resources Assigned]
 ```
 
 **Optional but recommended for realism:** include one seeded "conflict" scenario (e.g., selecting a driver already assigned to an overlapping trip) that fails the "Conflict detection" step and shows an inline error state with a "choose another driver" prompt. This demonstrates the UI's error-handling polish, not just the happy path. Confirm if you want this included — adds a bit of scope but makes the demo much stronger.
@@ -161,7 +167,7 @@ This directly visualizes the "Platform Activity" tags from your existing step ca
 ## 6. Mock Data Models (TypeScript)
 
 ```ts
-type TripStatus = "AWAITING_PLANNING" | "TRIP_PLANNED" | "RESOURCES_ASSIGNED" | "DRIVER_CONFIRMED";
+type TripStatus = "TRIP_PLANNED" | "RESOURCES_ASSIGNED" | "DRIVER_CONFIRMED" | "DRIVER_DECLINED";
 
 interface Trip {
     id: string;
@@ -241,6 +247,7 @@ src/
 - Empty state: no trip selected → right panel shows placeholder ("Select a trip to assign resources")
 - Loading state: checklist animation mid-flight (buttons disabled, cancel not allowed mid-validation — or allow cancel, your call)
 - Success state: post-assignment confirmation
+- Driver-declined state: retain the assigned vehicle and dispatch time, require a replacement driver, and return to `Resources Assigned` after successful reassignment
 - Error/conflict state: optional, per §5
 - Responsive: stacks to single column below ~992px (queue collapses into a drawer or sits above the panel)
 

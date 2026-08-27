@@ -90,9 +90,9 @@ export const mockShipmentVisibility: ShipmentVisibility[] = [
     },
     {
         tripId: "trip-007",
-        eta: "Pending planning",
+        eta: "Pending reassignment",
         lastUpdated: "31 min ago",
         serviceLevel: "Secure cargo",
-        milestones: milestonesWith(),
+        milestones: milestonesWith({ RESOURCES_ASSIGNED: "Aug 5 · 12:35 PM" }),
     },
 ];

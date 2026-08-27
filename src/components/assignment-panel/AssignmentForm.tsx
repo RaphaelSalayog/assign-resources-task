@@ -64,7 +64,7 @@ export function AssignmentForm({
                         disabled={disabled}
                         format="MMM D, YYYY · hh:mm A"
                         prefix={<CalendarOutlined />}
-                        showTime={{ format: "hh:mm A", minuteStep: 15 }}
+                        showTime={{ format: "hh:mm A" }}
                         value={dispatchTime}
                         onChange={onDispatchTimeChange}
                     />

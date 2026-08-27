@@ -79,11 +79,11 @@ export function AppSidebar({
                             <Button
                                 className="sidebar-collapse-button"
                                 type="text"
+                                shape="circle"
+                                aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
                                 icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
                                 onClick={() => onCollapse(!collapsed)}
-                            >
-                                {!collapsed ? "Collapse sidebar" : null}
-                            </Button>
+                            />
                         </Tooltip>
                     </div>
                 ) : null}

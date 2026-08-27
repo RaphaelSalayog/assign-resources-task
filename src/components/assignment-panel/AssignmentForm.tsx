@@ -2,10 +2,13 @@ import type { Dayjs } from "dayjs";
 import CalendarOutlined from "@ant-design/icons/CalendarOutlined";
 import { DatePicker, Typography } from "antd";
 import type { Driver, Vehicle } from "../../types";
+import { DeferredDateInput } from "./DeferredDateInput";
 import { DriverSelect } from "./DriverSelect";
 import { VehicleSelect } from "./VehicleSelect";
 
 const { Text } = Typography;
+const dispatchTimeFormats = ["MMM D, YYYY · hh:mm A", "MM/DD/YYYY hh:mm A"];
+const dispatchTimeComponents = { input: DeferredDateInput };
 
 interface AssignmentFormProps {
     vehicles: Vehicle[];
@@ -61,8 +64,9 @@ export function AssignmentForm({
                     <DatePicker
                         aria-label="Dispatch time"
                         className="dispatch-time-picker"
+                        components={dispatchTimeComponents}
                         disabled={disabled}
-                        format="MMM D, YYYY · hh:mm A"
+                        format={dispatchTimeFormats}
                         prefix={<CalendarOutlined />}
                         showTime={{ format: "hh:mm A" }}
                         value={dispatchTime}

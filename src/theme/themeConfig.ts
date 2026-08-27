@@ -20,7 +20,7 @@ export const themeConfig: ThemeConfig = {
         Layout: {
             headerBg: "#0e1336",
             bodyBg: "#F3F5F7",
-            siderBg: "#0e1336",
+            siderBg: "radial-gradient(circle at 50% 0%, rgb(244 148 0 / 18%), transparent 45%), linear-gradient(180deg, #0E1336, #171B3D)",
             triggerBg: "#0e1336",
         },
         Button: {
@@ -40,7 +40,7 @@ export const themeConfig: ThemeConfig = {
             borderRadiusSM: 999,
         },
         Menu: {
-            darkItemBg: "#0e1336",
+            darkItemBg: "transparent",
             darkItemSelectedBg: "#3E3526",
             darkItemSelectedColor: "#FFB13B",
             darkItemHoverBg: "#2A303D",

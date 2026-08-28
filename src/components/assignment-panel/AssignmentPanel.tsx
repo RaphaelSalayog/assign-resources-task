@@ -1,6 +1,6 @@
 import CheckCircleOutlined from "@ant-design/icons/CheckCircleOutlined";
 import CloseCircleOutlined from "@ant-design/icons/CloseCircleOutlined";
-import ThunderboltOutlined from "@ant-design/icons/ThunderboltOutlined";
+import FormOutlined from "@ant-design/icons/es/icons/FormOutlined";
 import { Button, Card, Empty, Space, Tag, Typography } from "antd";
 import type { Dayjs } from "dayjs";
 import type { AssignmentFlowStatus, Driver, Trip, TripStatus, Vehicle } from "../../types";
@@ -141,7 +141,7 @@ export function AssignmentPanel({
                     <Button
                         type="primary"
                         size="large"
-                        icon={<ThunderboltOutlined />}
+                        icon={<FormOutlined />}
                         disabled={!canAssign || isAssigned}
                         loading={isValidating}
                         onClick={onAssign}

@@ -1,6 +1,7 @@
+import { DashboardOutlined, FileTextOutlined, ScheduleOutlined, InboxOutlined, EnvironmentOutlined, CarOutlined, DollarOutlined, BarChartOutlined, SettingOutlined } from "@ant-design/icons";
 import ApartmentOutlined from "@ant-design/icons/ApartmentOutlined";
-import MenuFoldOutlined from "@ant-design/icons/MenuFoldOutlined";
-import MenuUnfoldOutlined from "@ant-design/icons/MenuUnfoldOutlined";
+import LeftCircleOutlined from "@ant-design/icons/es/icons/LeftCircleOutlined";
+import RightCircleOutlined from "@ant-design/icons/es/icons/RightCircleOutlined";
 import TeamOutlined from "@ant-design/icons/TeamOutlined";
 import TruckOutlined from "@ant-design/icons/TruckOutlined";
 import { Button, Layout, Menu, Tooltip, Typography } from "antd";
@@ -11,8 +12,17 @@ const { Sider } = Layout;
 const { Text } = Typography;
 
 const navigationItems: MenuProps["items"] = [
+    { key: "/dashboard", icon: <DashboardOutlined />, label: "Dashboard", disabled: true },
+    { key: "/orders", icon: <FileTextOutlined />, label: "Orders", disabled: true },
+    { key: "/planning", icon: <ScheduleOutlined />, label: "Planning", disabled: true },
     { key: "/dispatch", icon: <ApartmentOutlined />, label: "Dispatch" },
+    { key: "/operations", icon: <InboxOutlined />, label: "Operations", disabled: true },
+    { key: "/tracking", icon: <EnvironmentOutlined />, label: "Tracking", disabled: true },
+    { key: "/delivery", icon: <CarOutlined />, label: "Delivery", disabled: true },
+    { key: "/billing", icon: <DollarOutlined />, label: "Billing", disabled: true },
+    { key: "/analytics", icon: <BarChartOutlined />, label: "Analytics", disabled: true },
     { key: "/clients", icon: <TeamOutlined />, label: "Clients" },
+    { key: "/admin", icon: <SettingOutlined />, label: "Administration", disabled: true },
 ];
 
 interface AppSidebarProps {
@@ -60,9 +70,20 @@ export function AppSidebar({
                             <Text className="brand-product">Operations platform</Text>
                         </span>
                     ) : null}
-                </div>
 
-                {!collapsed ? <div className="sidebar-section-label">Workspace</div> : null}
+                    {!mobile ? (
+                        <Tooltip title={collapsed ? "Expand sidebar" : "Collapse sidebar"} placement="right">
+                            <Button
+                                className="sidebar-collapse-button"
+                                type="text"
+                                aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+                                icon={collapsed ? <RightCircleOutlined /> : <LeftCircleOutlined />}
+                                onClick={() => onCollapse(!collapsed)}
+                            />
+                        </Tooltip>
+                    ) : null}
+                </div>
+                
                 <Menu
                     className="sidebar-menu"
                     mode="inline"
@@ -72,21 +93,6 @@ export function AppSidebar({
                     selectedKeys={[selectedKey]}
                     onClick={handleMenuClick}
                 />
-
-                {!mobile ? (
-                    <div className="sidebar-footer">
-                        <Tooltip title={collapsed ? "Expand sidebar" : "Collapse sidebar"} placement="right">
-                            <Button
-                                className="sidebar-collapse-button"
-                                type="text"
-                                shape="circle"
-                                aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
-                                icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-                                onClick={() => onCollapse(!collapsed)}
-                            />
-                        </Tooltip>
-                    </div>
-                ) : null}
             </div>
         </Sider>
     );

@@ -1,7 +1,6 @@
 import CheckCircleFilled from "@ant-design/icons/CheckCircleFilled";
 import ClockCircleOutlined from "@ant-design/icons/ClockCircleOutlined";
 import CloseCircleFilled from "@ant-design/icons/CloseCircleFilled";
-import ThunderboltOutlined from "@ant-design/icons/ThunderboltOutlined";
 import TruckOutlined from "@ant-design/icons/TruckOutlined";
 import { App, Breadcrumb, Typography } from "antd";
 import dayjs, { type Dayjs } from "dayjs";
@@ -147,7 +146,7 @@ export function AssignResourcesPage({ trips, onTripUpdate }: AssignResourcesPage
             <div className="page-title-row">
                 <div>
                     <div className="page-kicker">
-                        <ThunderboltOutlined /> Order-to-delivery
+                        <TruckOutlined /> Order-to-delivery
                     </div>
                     <Title>Assign resources</Title>
                     <Text type="secondary">

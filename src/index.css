@@ -558,8 +558,6 @@ input {
 }
 
 .trip-route-map {
-    position: relative;
-    height: 176px;
     margin: 16px 0 0;
     overflow: hidden;
     border: 1px solid var(--ant-color-border-secondary);
@@ -570,105 +568,72 @@ input {
 .trip-route-map-canvas {
     display: block;
     width: 100%;
-    height: 100%;
+    height: 230px;
+    background: var(--ant-color-bg-layout);
+    font-family: var(--ant-font-family);
+    isolation: isolate;
 }
 
-.trip-route-map-water {
-    fill: var(--ant-color-fill-quaternary);
+.trip-route-map-canvas .leaflet-control-zoom {
+    overflow: hidden;
+    border: 1px solid var(--ant-color-border-secondary);
+    border-radius: 8px;
+    box-shadow: var(--ant-box-shadow-tertiary);
 }
 
-.trip-route-map-land,
-.trip-route-map-island {
-    fill: var(--ant-color-bg-container);
-    stroke: var(--ant-color-border-secondary);
-    stroke-width: 1.5;
+.trip-route-map-canvas .leaflet-control-zoom a {
+    border-color: var(--ant-color-border-secondary);
+    color: var(--ant-color-text);
+    background: var(--ant-color-bg-container);
 }
 
-.trip-route-map-road {
-    fill: none;
-    stroke: var(--ant-color-border-secondary);
-    stroke-linecap: round;
-    stroke-width: 1.5;
+.trip-route-map-canvas .leaflet-control-zoom a:hover,
+.trip-route-map-canvas .leaflet-control-zoom a:focus-visible {
+    color: var(--ant-color-primary);
+    background: var(--ant-color-primary-bg);
 }
 
-.trip-route-map-road-major {
-    stroke: var(--ant-color-border);
-    stroke-width: 2.5;
+.trip-route-map-canvas .leaflet-control-zoom a:focus-visible {
+    outline: 2px solid var(--ant-color-primary-border);
+    outline-offset: -2px;
 }
 
-.trip-route-map-road-secondary {
-    opacity: 0.65;
-    stroke-dasharray: 5 7;
+.trip-route-map-canvas .leaflet-control-attribution {
+    color: var(--ant-color-text-secondary);
+    background: var(--ant-color-bg-container);
+    font-size: 9px;
+    line-height: 14px;
 }
 
-.trip-route-map-landmark {
-    fill: var(--ant-color-border);
+.trip-route-map-canvas .leaflet-control-attribution a {
+    color: var(--ant-color-link);
 }
 
-.trip-route-map-route-halo,
-.trip-route-map-route {
-    fill: none;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-}
-
-.trip-route-map-route-halo {
-    stroke: var(--ant-color-bg-container);
-    stroke-width: 8;
-}
-
-.trip-route-map-route {
-    stroke: var(--ant-color-primary);
-    stroke-width: 3.5;
-}
-
-.trip-route-map-marker-halo {
-    fill: var(--ant-color-bg-container);
-    opacity: 0.72;
-}
-
-.trip-route-map-marker {
-    stroke: var(--ant-color-primary);
-    stroke-width: 3;
-}
-
-.trip-route-map-marker-pickup {
-    fill: var(--ant-color-bg-container);
-}
-
-.trip-route-map-marker-delivery {
-    fill: var(--ant-color-primary);
-}
-
-.trip-route-map-marker-label {
-    dominant-baseline: central;
+.leaflet-tooltip.trip-route-map-marker-label {
+    padding: 0;
+    border: 0;
+    color: var(--ant-color-primary);
+    background: transparent;
+    box-shadow: none;
     font-family: var(--ant-font-family);
     font-size: 11px;
-    font-weight: 700;
-    text-anchor: middle;
+    font-weight: 600;
+    line-height: 22px;
 }
 
-.trip-route-map-marker-label-pickup {
-    fill: var(--ant-color-primary);
+.leaflet-tooltip.trip-route-map-marker-label::before {
+    display: none;
 }
 
-.trip-route-map-marker-label-delivery {
-    fill: var(--ant-color-bg-container);
+.leaflet-tooltip.trip-route-map-marker-label-delivery {
+    color: var(--ant-color-bg-container);
 }
 
 .trip-route-map-caption {
-    position: absolute;
-    right: 8px;
-    bottom: 8px;
-    left: 8px;
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 8px;
-    padding: 8px;
-    border: 1px solid var(--ant-color-border-secondary);
-    border-radius: 8px;
+    border-top: 1px solid var(--ant-color-border-secondary);
     background: var(--ant-color-bg-container);
-    box-shadow: var(--ant-box-shadow-tertiary);
 }
 
 .trip-route-map-location {
@@ -676,6 +641,11 @@ input {
     align-items: center;
     gap: 8px;
     min-width: 0;
+    padding: 12px;
+}
+
+.trip-route-map-location + .trip-route-map-location {
+    border-left: 1px solid var(--ant-color-border-secondary);
 }
 
 .trip-route-map-location-marker {
@@ -688,7 +658,7 @@ input {
     border: 2px solid var(--ant-color-primary);
     border-radius: 50%;
     font-size: 10px;
-    font-weight: 700;
+    font-weight: 600;
 }
 
 .trip-route-map-location-marker-pickup {
@@ -1335,8 +1305,17 @@ input {
         grid-template-columns: 1fr;
     }
 
-    .trip-route-map {
-        height: 150px;
+    .trip-route-map-canvas {
+        height: 210px;
+    }
+
+    .trip-route-map-caption {
+        grid-template-columns: 1fr;
+    }
+
+    .trip-route-map-location + .trip-route-map-location {
+        border-top: 1px solid var(--ant-color-border-secondary);
+        border-left: 0;
     }
 
     .summary-item,

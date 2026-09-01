@@ -28,6 +28,7 @@ export function TripSummary({ trip }: TripSummaryProps) {
                 delivery={trip.delivery}
                 pickupCoordinates={trip.pickupCoordinates}
                 deliveryCoordinates={trip.deliveryCoordinates}
+                routeCoordinates={trip.routeCoordinates}
             />
 
             <div className="summary-grid">

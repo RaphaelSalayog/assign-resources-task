@@ -20,6 +20,7 @@ export interface Trip {
     delivery: string;
     pickupCoordinates: GeoPoint;
     deliveryCoordinates: GeoPoint;
+    routeCoordinates?: GeoPoint[];
     requestedWindow: string;
     vehicleRequirement: string;
     routeConstraints?: string;

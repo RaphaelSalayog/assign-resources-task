@@ -7,12 +7,19 @@ export type TripStatus =
 
 export type AssignmentFlowStatus = "idle" | "ready" | "validating" | "assigned" | "error";
 
+export interface GeoPoint {
+    latitude: number;
+    longitude: number;
+}
+
 export interface Trip {
     id: string;
     orderRef: string;
     client: string;
     pickup: string;
     delivery: string;
+    pickupCoordinates: GeoPoint;
+    deliveryCoordinates: GeoPoint;
     requestedWindow: string;
     vehicleRequirement: string;
     routeConstraints?: string;

@@ -4,6 +4,7 @@ import FlagOutlined from "@ant-design/icons/FlagOutlined";
 import TruckOutlined from "@ant-design/icons/TruckOutlined";
 import { Typography } from "antd";
 import type { Trip } from "../../types";
+import { TripRouteMap } from "./TripRouteMap";
 
 const { Text } = Typography;
 
@@ -21,6 +22,13 @@ export function TripSummary({ trip }: TripSummaryProps) {
                 </div>
                 <Text type="secondary">Client: {trip.client}</Text>
             </div>
+
+            <TripRouteMap
+                pickup={trip.pickup}
+                delivery={trip.delivery}
+                pickupCoordinates={trip.pickupCoordinates}
+                deliveryCoordinates={trip.deliveryCoordinates}
+            />
 
             <div className="summary-grid">
                 <div className="summary-item summary-route-item">

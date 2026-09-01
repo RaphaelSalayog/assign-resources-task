@@ -557,6 +557,179 @@ input {
     font-size: 11px;
 }
 
+.trip-route-map {
+    position: relative;
+    height: 176px;
+    margin: 16px 0 0;
+    overflow: hidden;
+    border: 1px solid var(--ant-color-border-secondary);
+    border-radius: 10px;
+    background: var(--ant-color-bg-layout);
+}
+
+.trip-route-map-canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.trip-route-map-water {
+    fill: var(--ant-color-fill-quaternary);
+}
+
+.trip-route-map-land,
+.trip-route-map-island {
+    fill: var(--ant-color-bg-container);
+    stroke: var(--ant-color-border-secondary);
+    stroke-width: 1.5;
+}
+
+.trip-route-map-road {
+    fill: none;
+    stroke: var(--ant-color-border-secondary);
+    stroke-linecap: round;
+    stroke-width: 1.5;
+}
+
+.trip-route-map-road-major {
+    stroke: var(--ant-color-border);
+    stroke-width: 2.5;
+}
+
+.trip-route-map-road-secondary {
+    opacity: 0.65;
+    stroke-dasharray: 5 7;
+}
+
+.trip-route-map-landmark {
+    fill: var(--ant-color-border);
+}
+
+.trip-route-map-route-halo,
+.trip-route-map-route {
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.trip-route-map-route-halo {
+    stroke: var(--ant-color-bg-container);
+    stroke-width: 8;
+}
+
+.trip-route-map-route {
+    stroke: var(--ant-color-primary);
+    stroke-width: 3.5;
+}
+
+.trip-route-map-marker-halo {
+    fill: var(--ant-color-bg-container);
+    opacity: 0.72;
+}
+
+.trip-route-map-marker {
+    stroke: var(--ant-color-primary);
+    stroke-width: 3;
+}
+
+.trip-route-map-marker-pickup {
+    fill: var(--ant-color-bg-container);
+}
+
+.trip-route-map-marker-delivery {
+    fill: var(--ant-color-primary);
+}
+
+.trip-route-map-marker-label {
+    dominant-baseline: central;
+    font-family: var(--ant-font-family);
+    font-size: 11px;
+    font-weight: 700;
+    text-anchor: middle;
+}
+
+.trip-route-map-marker-label-pickup {
+    fill: var(--ant-color-primary);
+}
+
+.trip-route-map-marker-label-delivery {
+    fill: var(--ant-color-bg-container);
+}
+
+.trip-route-map-caption {
+    position: absolute;
+    right: 8px;
+    bottom: 8px;
+    left: 8px;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    padding: 8px;
+    border: 1px solid var(--ant-color-border-secondary);
+    border-radius: 8px;
+    background: var(--ant-color-bg-container);
+    box-shadow: var(--ant-box-shadow-tertiary);
+}
+
+.trip-route-map-location {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+}
+
+.trip-route-map-location-marker {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    flex: 0 0 22px;
+    border: 2px solid var(--ant-color-primary);
+    border-radius: 50%;
+    font-size: 10px;
+    font-weight: 700;
+}
+
+.trip-route-map-location-marker-pickup {
+    color: var(--ant-color-primary);
+    background: var(--ant-color-bg-container);
+}
+
+.trip-route-map-location-marker-delivery {
+    color: var(--ant-color-bg-container);
+    background: var(--ant-color-primary);
+}
+
+.trip-route-map-location-copy {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+}
+
+.trip-route-map-location-label {
+    color: var(--ant-color-text-secondary);
+    font-size: 9px;
+    line-height: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.trip-route-map-location-copy strong {
+    display: -webkit-box;
+    overflow: hidden;
+    color: var(--ant-color-text);
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 14px;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+}
+
+.trip-route-map + .summary-grid {
+    margin-top: 12px;
+}
+
 .summary-grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1160,6 +1333,10 @@ input {
     .form-grid,
     .shipment-filters {
         grid-template-columns: 1fr;
+    }
+
+    .trip-route-map {
+        height: 150px;
     }
 
     .summary-item,

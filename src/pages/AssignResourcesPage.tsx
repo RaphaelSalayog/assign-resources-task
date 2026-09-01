@@ -88,7 +88,7 @@ export function AssignResourcesPage({ trips, onTripUpdate }: AssignResourcesPage
             setFlowStatus("error");
             notification.error({
                 key: "driver-schedule-conflict",
-                message: "Driver schedule conflict detected",
+                title: "Driver schedule conflict detected",
                 description: `${driver.name} has an overlapping assignment on ${driver.conflictTripRef}. Select another available driver to continue.`,
                 showProgress: true,
                 duration: 10,

@@ -726,6 +726,10 @@ input {
     border-bottom: 0;
 }
 
+.summary-item > div {
+    min-width: 0;
+}
+
 .summary-item .ant-typography:first-child {
     font-size: 10px;
     text-transform: uppercase;

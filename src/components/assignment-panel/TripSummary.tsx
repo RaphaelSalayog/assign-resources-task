@@ -1,3 +1,4 @@
+import CalendarOutlined from "@ant-design/icons/CalendarOutlined";
 import ClockCircleOutlined from "@ant-design/icons/ClockCircleOutlined";
 import EnvironmentOutlined from "@ant-design/icons/EnvironmentOutlined";
 import FlagOutlined from "@ant-design/icons/FlagOutlined";
@@ -44,6 +45,20 @@ export function TripSummary({ trip }: TripSummaryProps) {
                     <div>
                         <Text type="secondary">Vehicle requirement</Text>
                         <Text strong>{trip.vehicleRequirement}</Text>
+                    </div>
+                </div>
+                <div className="summary-item">
+                    <span className="summary-icon"><CalendarOutlined /></span>
+                    <div>
+                        <Text type="secondary">Pickup date</Text>
+                        <Text strong>{trip.pickupDate}</Text>
+                    </div>
+                </div>
+                <div className="summary-item">
+                    <span className="summary-icon"><CalendarOutlined /></span>
+                    <div>
+                        <Text type="secondary">Delivery date</Text>
+                        <Text strong>{trip.deliveryDate}</Text>
                     </div>
                 </div>
                 <div className="summary-item">
